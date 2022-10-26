@@ -1,0 +1,179 @@
+[
+    {
+        "id": "5e7b64ba1e07b72e",
+        "type": "tab",
+        "label": "LND forward envent notification",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3b09fa8a870d73ae",
+        "type": "debug",
+        "z": "5e7b64ba1e07b72e",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "4dc3c020e7b5921b",
+        "type": "custom-websocket-in",
+        "z": "5e7b64ba1e07b72e",
+        "name": "REST /v2/router/htlcevents",
+        "server": "",
+        "client": "7dacdbb2dce90dbd",
+        "x": 170,
+        "y": 40,
+        "wires": [
+            [
+                "687914195544b6a4"
+            ]
+        ]
+    },
+    {
+        "id": "687914195544b6a4",
+        "type": "json",
+        "z": "5e7b64ba1e07b72e",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 110,
+        "y": 120,
+        "wires": [
+            [
+                "c54bf97e9151def2"
+            ]
+        ]
+    },
+    {
+        "id": "c54bf97e9151def2",
+        "type": "switch",
+        "z": "5e7b64ba1e07b72e",
+        "name": "Is event_type FORWARD?",
+        "property": "payload.result.event_type",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "FORWARD",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "ab1d23e17814d61b",
+                "b51fafda548e4213",
+                "56e90c40b0ee7d88",
+                "3b09fa8a870d73ae"
+            ]
+        ]
+    },
+    {
+        "id": "ab1d23e17814d61b",
+        "type": "switch",
+        "z": "5e7b64ba1e07b72e",
+        "name": "Is settle_event not empty ?",
+        "property": "payload.result.settle_event",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 360,
+        "wires": [
+            [
+                "3b09fa8a870d73ae"
+            ]
+        ]
+    },
+    {
+        "id": "b51fafda548e4213",
+        "type": "switch",
+        "z": "5e7b64ba1e07b72e",
+        "d": true,
+        "name": "Is link_fail_event not empty ?",
+        "property": "payload.result.link_fail_event",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 480,
+        "y": 300,
+        "wires": [
+            [
+                "3b09fa8a870d73ae"
+            ]
+        ]
+    },
+    {
+        "id": "56e90c40b0ee7d88",
+        "type": "switch",
+        "z": "5e7b64ba1e07b72e",
+        "d": true,
+        "name": "Is forward_event.info not empty ?",
+        "property": "payload.result.forward_event.info",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 500,
+        "y": 240,
+        "wires": [
+            [
+                "3b09fa8a870d73ae"
+            ]
+        ]
+    },
+    {
+        "id": "7dacdbb2dce90dbd",
+        "type": "custom-websocket-client",
+        "path": "wss://10.21.21.9:8080/v2/router/htlcevents",
+        "headers": "{\"Grpc-Metadata-macaroon\":\"HEREYOURMACAROON\"}",
+        "tls": "a01d80901e23cd94",
+        "wholemsg": "false"
+    },
+    {
+        "id": "a01d80901e23cd94",
+        "type": "tls-config",
+        "name": "",
+        "cert": "",
+        "key": "",
+        "ca": "/home/umbrel/umbrel/app-data/lightning/data/lnd/tls.cert",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    }
+]
