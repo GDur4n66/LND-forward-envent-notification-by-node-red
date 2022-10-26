@@ -1,4 +1,4 @@
-# LND-forward-envent-notification-by-node-red
+# LND-forward-event-notification-by-node-red
 
 ラズパイUmbrelにLNDとnode-redを入れること前提。
 
