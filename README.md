@@ -1,3 +1,6 @@
 # LND-forward-envent-notification-by-node-red
 
-テスト
+ラズパイUmbrelにLNDとnode-redを入れること前提
+node-redはUmrelアプリストアのものでもいいし、UmbrelOSに直にいれてもよい
+
+
